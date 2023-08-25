@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>725456257727-7s86sa8q4v77d6lu7qgpcakutinj0ihp.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.725456257727-7s86sa8q4v77d6lu7qgpcakutinj0ihp</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>725456257727-cl36689n6mcuutj0r45feld1acngoj3g.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyAzMqVOMqXRgV8BnQy0W-RiDjHZex73OiI</string>
+	<key>GCM_SENDER_ID</key>
+	<string>725456257727</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.example.newTete.RunnerTests</string>
+	<key>PROJECT_ID</key>
+	<string>tete-a-tete-3741a</string>
+	<key>STORAGE_BUCKET</key>
+	<string>tete-a-tete-3741a.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:725456257727:ios:4829642d72c2ff64c23c0a</string>
+</dict>
+</plist>

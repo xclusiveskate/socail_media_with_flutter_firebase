@@ -1,0 +1,98 @@
+{
+  "project_info": {
+    "project_number": "725456257727",
+    "project_id": "tete-a-tete-3741a",
+    "storage_bucket": "tete-a-tete-3741a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:725456257727:android:8674c30cc76a30d3c23c0a",
+        "android_client_info": {
+          "package_name": "com.example.new_tete"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "725456257727-cht9stm6kkr154ghf7m2tmu2pgnhfc24.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.new_tete",
+            "certificate_hash": "1fa936a23c8f9e2c092aa79c6c0e40efb63fd7b2"
+          }
+        },
+        {
+          "client_id": "725456257727-m5p1ndckbs4t8bpmk0cf076opigsnp2v.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC_ZmD81XNCwPmi6Ug9a9KTWabPR8w3l7o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "725456257727-m5p1ndckbs4t8bpmk0cf076opigsnp2v.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "725456257727-7s86sa8q4v77d6lu7qgpcakutinj0ihp.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.newTete.RunnerTests"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:725456257727:android:00611f60d3a09c74c23c0a",
+        "android_client_info": {
+          "package_name": "com.example.tete_a_tete"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "725456257727-cl36689n6mcuutj0r45feld1acngoj3g.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.tete_a_tete",
+            "certificate_hash": "1fa936a23c8f9e2c092aa79c6c0e40efb63fd7b2"
+          }
+        },
+        {
+          "client_id": "725456257727-m5p1ndckbs4t8bpmk0cf076opigsnp2v.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC_ZmD81XNCwPmi6Ug9a9KTWabPR8w3l7o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "725456257727-m5p1ndckbs4t8bpmk0cf076opigsnp2v.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "725456257727-7s86sa8q4v77d6lu7qgpcakutinj0ihp.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.newTete.RunnerTests"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
