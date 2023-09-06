@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:new_tete/UI/bottom/connection/user_profile.dart';
+import 'package:new_tete/Modell/user_model.dart';
+import 'package:new_tete/UI/bottom/home/profile.dart';
 import 'package:new_tete/UI/util/utils.dart';
 
 class MyConnections extends StatefulWidget {
@@ -30,7 +31,11 @@ class _MyConnectionsState extends State<MyConnections> {
                         horizontal: 0.0, vertical: 0.0),
                     child: ListTile(
                       onTap: () {
-                        push(context, const UserProfile());
+                        push(
+                            context,
+                            MyProfile(
+                              user: UserModel(),
+                            ));
                       },
                       contentPadding: const EdgeInsets.all(8.0),
                       leading: SizedBox(

@@ -45,24 +45,6 @@ class _HomePageState extends State<HomePage> {
   User? user = FirebaseAuth.instance.currentUser;
   String? currentUserId;
 
-  // likePost(
-  //     {required String userId,
-  //     required String postId,
-  //     required bool currenUserLike}) {
-  //   print(postId);
-  //   final db = FirebaseFirestore.instance;
-  //   var postToLike = db.collection('posts').doc(postId);
-  //   if (currenUserLike) {
-  //     postToLike.update({
-  //       'likes': FieldValue.arrayRemove([userId])
-  //     });
-  //   } else {
-  //     postToLike.update({
-  //       'likes': FieldValue.arrayUnion([userId])
-  //     });
-  //   }
-  // }
-
   int initialValue = 1;
   @override
   Widget build(BuildContext context) {
@@ -159,12 +141,14 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.greenAccent,
+        backgroundColor: Colors.teal.shade100,
         onPressed: () {
           push(context, const AddPosts());
         },
         child: const Icon(Icons.add),
       ),
+      // floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      // extendBody: true,
     );
   }
 }

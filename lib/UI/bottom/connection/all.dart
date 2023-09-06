@@ -4,8 +4,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:new_tete/Modell/user_model.dart';
-import 'package:new_tete/UI/bottom/connection/user_profile.dart';
+import 'package:new_tete/UI/bottom/home/profile.dart';
 import 'package:new_tete/UI/util/utils.dart';
+import 'package:new_tete/controllers/service.dart';
 
 class AllUsers extends StatefulWidget {
   const AllUsers({super.key});
@@ -17,11 +18,11 @@ class AllUsers extends StatefulWidget {
 class _AllUsersState extends State<AllUsers> {
   ScrollController scrollControl = ScrollController();
   String currentUserId = '';
-  User? user = FirebaseAuth.instance.currentUser;
+  User? theUser = FirebaseAuth.instance.currentUser;
 
   @override
   void initState() {
-    currentUserId = user!.uid;
+    currentUserId = theUser!.uid;
     super.initState();
   }
 
@@ -69,7 +70,11 @@ class _AllUsersState extends State<AllUsers> {
                               horizontal: 0.0, vertical: 0.0),
                           child: ListTile(
                             onTap: () {
-                              push(context, const UserProfile());
+                              push(
+                                  context,
+                                  MyProfile(
+                                    user: user,
+                                  ));
                             },
                             contentPadding: const EdgeInsets.all(8.0),
                             leading: SizedBox(
@@ -95,20 +100,23 @@ class _AllUsersState extends State<AllUsers> {
                                   fontSize: 18, fontWeight: FontWeight.bold),
                             ),
                             trailing: ElevatedButton(
-                                onPressed: () {},
+                                onPressed: () {
+                                  ServiceCall.followUser(user, currentUserId);
+                                },
                                 style: ElevatedButton.styleFrom(
-                                    backgroundColor: index % 2 == 1
-                                        ? Colors.greenAccent
-                                        : null),
-                                child: index % 2 == 0
+                                    backgroundColor:
+                                        user.following!.contains(currentUserId)
+                                            ? Colors.greenAccent
+                                            : null),
+                                child: user.following!.contains(currentUserId)
                                     ? Text(
-                                        "Follow",
+                                        "UnFollow",
                                         style: GoogleFonts.acme(
                                             fontStyle: FontStyle.italic,
                                             fontWeight: FontWeight.bold),
                                       )
                                     : Text(
-                                        "Following",
+                                        "Follow",
                                         style: GoogleFonts.acme(
                                             fontStyle: FontStyle.italic,
                                             fontWeight: FontWeight.bold),

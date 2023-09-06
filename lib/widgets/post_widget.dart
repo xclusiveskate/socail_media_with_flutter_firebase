@@ -2,8 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:new_tete/Modell/post_model.dart';
 import 'package:new_tete/Modell/user_model.dart';
-import 'package:new_tete/UI/bottom/connection/user_profile.dart';
 import 'package:new_tete/UI/bottom/home/post_view.dart';
+import 'package:new_tete/UI/bottom/home/profile.dart';
 import 'package:new_tete/UI/util/utils.dart';
 import 'package:new_tete/controllers/service.dart';
 
@@ -61,7 +61,11 @@ class PostWidget extends StatelessWidget {
               child: ListTile(
                 leading: InkWell(
                   onTap: () {
-                    push(context, const UserProfile());
+                    push(
+                        context,
+                        MyProfile(
+                          user: posterDetails,
+                        ));
                   },
                   child: posterDetails.profileImageUrl == null
                       ? CircleAvatar(

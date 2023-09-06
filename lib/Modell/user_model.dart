@@ -12,6 +12,7 @@ class UserModel {
   String? bio;
   List? followers;
   List? following;
+
   UserModel({
     this.id,
     this.lastName,
@@ -25,7 +26,7 @@ class UserModel {
     this.following,
   });
 
-  Map<String, dynamic> toJson() {
+  Map<String, Object?> toJson() {
     return {
       'id': id,
       'lastName': lastName,

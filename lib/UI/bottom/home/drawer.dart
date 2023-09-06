@@ -18,7 +18,8 @@ class MyDrawer extends StatefulWidget {
 }
 
 class _MyDrawerState extends State<MyDrawer> {
-  late UserModel user;
+  late final UserModel _user;
+  String url = "";
   signOut() async {
     await AuthMethods().signOut();
   }
@@ -26,18 +27,25 @@ class _MyDrawerState extends State<MyDrawer> {
   @override
   void initState() {
     super.initState();
-    user = getUser();
+    getNow();
   }
 
   String currentUserId = FirebaseAuth.instance.currentUser!.uid;
-  getUser() {
-    final inst = FirebaseFirestore.instance
+  getUser() async {
+    final inst = await FirebaseFirestore.instance
         .collection('users')
         .doc(currentUserId)
-        .get()
-        .then((value) => UserModel.fromFirestore(value))
-        .catchError((error) => error);
-    return inst;
+        .get();
+    final result = UserModel.fromFirestore(inst);
+    return result;
+  }
+
+  Future<void> getNow() async {
+    final user = await getUser();
+    setState(() {
+      _user = user;
+      url = _user.profileImageUrl!;
+    });
   }
 
   @override
@@ -73,26 +81,32 @@ class _MyDrawerState extends State<MyDrawer> {
                   children: [
                     GestureDetector(
                       onTap: () {
-                        push(context, const MyProfile());
+                        push(context, MyProfile(user: _user));
                       },
-                      child: const SizedBox(
+                      child: SizedBox(
                           width: 100,
                           height: 100,
-                          child: CircleAvatar(
-                            backgroundColor: Colors.greenAccent,
-                            backgroundImage:
-                                AssetImage('asset/images/avatar1.png'),
-                          )),
+                          // ignore: unnecessary_null_comparison
+                          child: url != null
+                              ? CircleAvatar(
+                                  backgroundImage:
+                                      NetworkImage(_user.profileImageUrl!),
+                                )
+                              : CircleAvatar(
+                                  backgroundColor: Colors.greenAccent,
+                                  backgroundImage:
+                                      AssetImage('asset/images/avatar1.png'),
+                                )),
                     ),
                     const Gap(10),
                     Text(
-                      "{currentUser?.firstName}",
+                      "${_user.firstName}",
                       style: GoogleFonts.abel(
                           fontSize: 20, fontWeight: FontWeight.bold),
                     ),
                     const Gap(10),
                     Text(
-                      "@${user.userName}",
+                      "@${_user.userName}",
                       style: GoogleFonts.abel(
                           fontSize: 18, fontStyle: FontStyle.italic),
                     ),
@@ -110,7 +124,7 @@ class _MyDrawerState extends State<MyDrawer> {
                                 borderRadius: BorderRadius.circular(20)),
                             child: RichText(
                                 text: TextSpan(
-                                    text: '3000 ',
+                                    text: _user.following!.length.toString(),
                                     style: GoogleFonts.abel(
                                       fontSize: 16,
                                       color: Colors.black,
@@ -118,9 +132,9 @@ class _MyDrawerState extends State<MyDrawer> {
                                     ),
                                     children: <TextSpan>[
                                   TextSpan(
-                                    text: "Following",
+                                    text: " Following",
                                     style: GoogleFonts.abel(
-                                      fontSize: 16,
+                                      fontSize: 14,
                                       color: Colors.black,
                                       fontWeight: FontWeight.bold,
                                     ),
@@ -137,7 +151,7 @@ class _MyDrawerState extends State<MyDrawer> {
                                 borderRadius: BorderRadius.circular(20)),
                             child: RichText(
                                 text: TextSpan(
-                                    text: '1000 ',
+                                    text: _user.followers!.length.toString(),
                                     style: GoogleFonts.abel(
                                       fontSize: 16,
                                       color: Colors.black,
@@ -145,9 +159,9 @@ class _MyDrawerState extends State<MyDrawer> {
                                     ),
                                     children: <TextSpan>[
                                   TextSpan(
-                                    text: "Followers",
+                                    text: " Followers",
                                     style: GoogleFonts.abel(
-                                      fontSize: 16,
+                                      fontSize: 14,
                                       color: Colors.black,
                                       fontWeight: FontWeight.bold,
                                     ),

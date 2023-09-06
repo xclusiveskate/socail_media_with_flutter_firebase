@@ -8,15 +8,25 @@ class ThemeStorage {
     await pref.setInt('colorKey', color.value);
   }
 
-  static Future<Map<String, dynamic>> loadTheme() async {
+  static Future<({ThemeMode mode, MaterialColor color})> loadTheme() async {
     final pref = await SharedPreferences.getInstance();
     final theModeIndex = pref.getInt('themeModeKey') ?? 0;
-    final primaryColorValue =
-        pref.getInt('colorKey') ?? Colors.teal.value;
+    final primaryColorValue = pref.getInt('colorKey') ?? Colors.teal.value;
 
     final themeMode = ThemeMode.values[theModeIndex];
-    final primaryColor = Color(primaryColorValue);
+    final primaryColor = MaterialColor(primaryColorValue, <int, Color>{
+      50: Color(primaryColorValue),
+      100: Color(primaryColorValue),
+      200: Color(primaryColorValue),
+      300: Color(primaryColorValue),
+      400: Color(primaryColorValue),
+      500: Color(primaryColorValue),
+      600: Color(primaryColorValue),
+      700: Color(primaryColorValue),
+      800: Color(primaryColorValue),
+      900: Color(primaryColorValue),
+    });
 
-    return {'themeMode': themeMode, 'primaryColor': primaryColor};
+    return (mode: themeMode, color: primaryColor);
   }
 }

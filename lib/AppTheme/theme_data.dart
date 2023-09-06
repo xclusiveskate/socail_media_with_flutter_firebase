@@ -30,4 +30,27 @@ class ThemeDataState {
         bottomNavigationBarTheme: const BottomNavigationBarThemeData(),
         cardTheme: const CardTheme());
   }
+
+  static ThemeData darkTheme(MaterialColor color) {
+    return ThemeData(
+        brightness: Brightness.dark,
+        primarySwatch: color,
+        cardTheme: CardTheme(
+            color: Colors.grey,
+            elevation: 3,
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20))),
+        elevatedButtonTheme: ElevatedButtonThemeData(
+            style: ButtonStyle(
+                minimumSize: MaterialStateProperty.all(Size(50, 30)))),
+        textTheme: TextTheme(
+            displayLarge: TextStyle(
+                fontSize: 26, color: Colors.white, fontWeight: FontWeight.bold),
+            displayMedium: TextStyle(
+                fontSize: 22, color: Colors.white, fontWeight: FontWeight.bold),
+            displaySmall: TextStyle(
+                fontSize: 18,
+                color: Colors.white,
+                fontWeight: FontWeight.bold)));
+  }
 }

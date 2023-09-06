@@ -1,13 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:new_tete/Modell/post_model.dart';
 import 'package:new_tete/Modell/user_model.dart';
 import 'package:new_tete/UI/bottom/home/add_comment.dart';
+import 'package:new_tete/UI/bottom/home/profile.dart';
 import 'package:new_tete/UI/util/utils.dart';
 import 'package:new_tete/controllers/service.dart';
 import 'package:readmore/readmore.dart';
-
-import 'package:uuid/uuid.dart';
 
 class PostView extends StatefulWidget {
   final PostModel post;
@@ -29,6 +29,23 @@ class PostView extends StatefulWidget {
 
 class _PostViewState extends State<PostView> {
   TextEditingController commentController = TextEditingController();
+  String formatDate(DateTime date) {
+    var now = DateTime.now();
+    final today = DateTime(
+      now.year,
+      now.month,
+      now.day,
+    );
+    final yesterday = DateTime(now.year, now.month, now.day - 1);
+    if (date.isAfter(today)) {
+      return DateFormat.jm().format(date);
+    } else if (date.isAfter(yesterday)) {
+      return ' yesterday';
+    } else {
+      return DateFormat.yMMMMd().format(date);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     Stream<DocumentSnapshot> commentStream = FirebaseFirestore.instance
@@ -40,6 +57,7 @@ class _PostViewState extends State<PostView> {
           // title: Text(widget.user.userName.toString()),
           ),
       body: SingleChildScrollView(
+        physics: BouncingScrollPhysics(),
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Column(
@@ -106,7 +124,7 @@ class _PostViewState extends State<PostView> {
               ),
               Align(
                   alignment: Alignment.centerLeft,
-                  child: Text('Date: ${widget.post.datePublished.toString()}')),
+                  child: Text(formatDate(widget.post.datePublished))),
               const SizedBox(
                 height: 3,
               ),
@@ -115,7 +133,6 @@ class _PostViewState extends State<PostView> {
                   stream: commentStream,
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
-                      return Text("");
                     } else if (snapshot.hasError) {
                       return const Center(child: Text("Error Loading comment"));
                     }
@@ -134,7 +151,15 @@ class _PostViewState extends State<PostView> {
                             TextButton(
                                 onPressed: () {
                                   sideSheet(
-                                      content: Container(),
+                                      content: Container(
+                                        child: Column(
+                                          children: data.likes!
+                                              .map((e) => ListTile(
+                                                    title: Text(e),
+                                                  ))
+                                              .toList(),
+                                        ),
+                                      ),
                                       header: "People that liked",
                                       complete: () => null,
                                       context: context);
@@ -142,7 +167,7 @@ class _PostViewState extends State<PostView> {
                                 child: Text('${data.likes!.length} Likes')),
                           ],
                         ),
-                        divider(),
+                        // divider(),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
@@ -190,10 +215,115 @@ class _PostViewState extends State<PostView> {
                             shrinkWrap: true,
                             itemBuilder: (context, index) {
                               final comment = data.comments[index];
-                              return Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Container(
-                                  child: Text(comment.comment),
+                              final commentor = users.firstWhere(
+                                  (element) => element.id == comment.userId);
+                              return Container(
+                                decoration: const BoxDecoration(
+                                    border: Border(
+                                        top: BorderSide(
+                                          color: Color.fromARGB(
+                                              255, 201, 201, 201),
+                                          width: 0.5,
+                                        ),
+                                        bottom: BorderSide(
+                                          color: Color.fromARGB(
+                                              255, 193, 193, 193),
+                                          width: 0.5,
+                                        ))),
+                                child: ListTile(
+                                  leading: InkWell(
+                                    onTap: () {
+                                      push(context, MyProfile(user: commentor));
+                                    },
+                                    child: widget.user.profileImageUrl == null
+                                        ? CircleAvatar(
+                                            backgroundColor: Colors.greenAccent,
+                                            child: Image.asset(
+                                              'asset/images/avatar.jpg',
+                                              fit: BoxFit.cover,
+                                            ))
+                                        : CircleAvatar(
+                                            backgroundColor: Colors.greenAccent,
+                                            backgroundImage: NetworkImage(
+                                                commentor.profileImageUrl!),
+                                          ),
+                                  ),
+                                  title: Column(
+                                    children: [
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceAround,
+                                        children: [
+                                          Text('${commentor.firstName}',
+                                              style: const TextStyle(
+                                                  fontWeight: FontWeight.bold)),
+                                          Text(
+                                            '@${commentor.userName!}',
+                                            style: const TextStyle(
+                                                fontSize: 13,
+                                                color: Colors.grey),
+                                          ),
+                                          const Text(
+                                            "11 Oct",
+                                            style: TextStyle(fontSize: 13),
+                                          ),
+                                          // IconButton(
+                                          //     onPressed: () async {},
+                                          //     icon: const Icon(Icons.more_vert))
+                                        ],
+                                      ),
+                                      Align(
+                                        alignment: Alignment.centerLeft,
+                                        child: Text(
+                                          comment.comment,
+                                          // textAlign: TextAlign.left,
+                                        ),
+                                      ),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          // Container(
+                                          //   child: Row(
+                                          //     mainAxisAlignment:
+                                          //         MainAxisAlignment.start,
+                                          //     children: [
+                                          //       IconButton(
+                                          //           onPressed: () {},
+                                          //           icon: const Icon(
+                                          //               Icons.comment)),
+                                          //       Text(
+                                          //           '${data.comments.length.toString()} ')
+                                          //     ],
+                                          //   ),
+                                          // ),
+                                          // Container(
+                                          //   child: Row(
+                                          //     children: [
+                                          //       IconButton(
+                                          //           onPressed: () {
+                                          //             ServiceCall.likePost(
+                                          //                 userId:
+                                          //                     widget.user.id!,
+                                          //                 postId:
+                                          //                     widget.post.uid!,
+                                          //                 currentUserLike:
+                                          //                     hasTheCurrentUserLiked);
+                                          //           },
+                                          //           icon: hasTheCurrentUserLiked
+                                          //               ? const Icon(Icons
+                                          //                   .favorite_rounded)
+                                          //               : const Icon(Icons
+                                          //                   .favorite_outline)),
+                                          //       Text(data.likes!.length
+                                          //           .toString())
+                                          //     ],
+                                          //   ),
+                                          // ),
+                                        ],
+                                      )
+                                    ],
+                                  ),
                                 ),
                               );
                             }),
@@ -205,46 +335,31 @@ class _PostViewState extends State<PostView> {
         ),
       ),
       persistentFooterButtons: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            Expanded(
-                flex: 3,
-                child: TextField(
-                  decoration: const InputDecoration(
-                      hintText: "Comment on the above post"),
-                  controller: commentController,
-                )),
-            Expanded(
-                flex: 1,
-                child: OutlinedButton(
-                    onPressed: () {
-                      if (commentController.text.isNotEmpty) {
-                        try {
-                          final uid = const Uuid().v1();
-                          FirebaseFirestore.instance
-                              .collection('posts')
-                              .doc(widget.post.uid)
-                              .update({
-                            "comments": FieldValue.arrayUnion([
-                              {
-                                "commentId": uid,
-                                "comment": commentController.text,
-                                "userId": widget.currentUser,
-                                // "likes": null
-                              }
-                            ])
-                          });
-                          setState(() {
-                            commentController.clear();
-                          });
-                        } catch (e) {
-                          print(e);
-                        }
-                      }
-                    },
-                    child: const Text("Reply"))),
-          ],
+        SingleChildScrollView(
+          physics: BouncingScrollPhysics(),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              Expanded(
+                  flex: 3,
+                  child: TextField(
+                    decoration: const InputDecoration(
+                        hintText: "Comment on the above post"),
+                    controller: commentController,
+                  )),
+              Expanded(
+                  flex: 1,
+                  child: OutlinedButton(
+                      onPressed: () {
+                        ServiceCall.addComment(
+                            widget.post, commentController, widget.currentUser);
+                        setState(() {
+                          commentController.clear();
+                        });
+                      },
+                      child: const Text("Reply"))),
+            ],
+          ),
         )
       ],
     );
